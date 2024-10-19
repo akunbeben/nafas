@@ -4,9 +4,11 @@ import { Result } from "~/types";
 import { encrypt } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export function ResultsDisplay({ result }: { result: Result }) {
     const router = useRouter();
+    const [shortUrl, setShortUrl] = useState<string | null>(null);
 
     const getBreathingRate = (age: number) => {
         if (age < 1) return '30-60';
@@ -14,6 +16,28 @@ export function ResultsDisplay({ result }: { result: Result }) {
         if (age < 6) return '22-34';
         if (age < 12) return '18-30';
         return '12-20';
+    };
+
+    const handleShareResults = async () => {
+        const currentUrl = `${window.location.origin}${window.location.pathname}`;
+        try {
+            const response = await fetch('/api/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: currentUrl }),
+            });
+            const data = await response.json();
+            setShortUrl(data.shortUrl);
+            await navigator.clipboard.writeText(data.shortUrl);
+            alert('Shortened link copied to clipboard!');
+        } catch (error) {
+            console.error('Error shortening URL:', error);
+            alert('Failed to generate short link. Using full URL instead.');
+            await navigator.clipboard.writeText(currentUrl);
+            alert('Full link copied to clipboard!');
+        }
     };
 
     return (
@@ -31,13 +55,14 @@ export function ResultsDisplay({ result }: { result: Result }) {
                     ))}
                 </div>
             </div>
-            <Button onClick={() => {
-                const shareUrl = `${window.location.origin}${window.location.pathname}`;
-                navigator.clipboard.writeText(shareUrl);
-                alert('Share link copied to clipboard!');
-            }}>
+            <Button onClick={handleShareResults}>
                 Share Results
             </Button>
+            {shortUrl && (
+                <div>
+                    <p>Shortened URL: {shortUrl}</p>
+                </div>
+            )}
             <Button onClick={() => {
                 const newResult = {
                     ...result,

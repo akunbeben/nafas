@@ -47,7 +47,7 @@ export function Timer({ mode, age }: { mode: 30 | 60, age: number }) {
             setResult(newResult);
             setCycleCompleted(false);
         }
-    }, [cycleCompleted, mode, count, result, currentAge]);
+    }, [cycleCompleted, mode, count, result, currentAge, setResult]);
 
     const handleAgeChange = (newAge: number) => {
         if (result?.cycles.length === 0) {

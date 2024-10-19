@@ -3,7 +3,7 @@ import { Result } from "~/types";
 import { Timer } from "./components/timer";
 import { Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: { enc: string } }): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
     return {
         title: 'Breathing Rate Counter',
         description: `Count breaths for early diagnosis of Pneumonia, Asthma, Bronchitis and other causes of respiratory diseases. Share the result with your doctor.`,

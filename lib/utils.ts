@@ -29,7 +29,7 @@ export function urlSafeDecode(str: string): string {
   return str;
 }
 
-export function encrypt(data: any) {
+export function encrypt(data: object) {
   const stringData = JSON.stringify(data);
   const { key, iv } = getKeyAndIV();
 

@@ -2,18 +2,14 @@
 
 import { Result } from "~/types";
 import { usePathname, useRouter } from 'next/navigation';
-import { BellRing, LinkIcon, RefreshCwIcon } from "lucide-react";
+import { LinkIcon, RefreshCwIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useCookies } from "next-client-cookies";
 import { toast } from "sonner";
 import { ButtonWithTooltip } from "~/components/ui/button-with-tooltip";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card"
-import { cn } from "~/lib/utils";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 
 export function ResultsDisplay({ result }: { result: Result }) {
     const t = useTranslations('Main');
-    const cookieStore = useCookies();
-    const locale = cookieStore.get('locale') || process.env.APP_LOCALE || 'id';
     const router = useRouter();
     const pathname = usePathname();
 
@@ -25,6 +21,7 @@ export function ResultsDisplay({ result }: { result: Result }) {
                 description: t('toast.copy.content.success')
             });
         } catch (error) {
+            console.error(error);
             toast.error(t('toast.copy.title.error'), {
                 description: t('toast.copy.content.error')
             });
@@ -57,11 +54,6 @@ export function ResultsDisplay({ result }: { result: Result }) {
                         ))}
                     </div>
                 </CardContent>
-                {/* <CardFooter>
-        <Button className="w-full">
-          <Check /> Mark all as read
-        </Button>
-      </CardFooter> */}
             </Card>
             <div className="flex gap-2">
                 <ButtonWithTooltip

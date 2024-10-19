@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useResultStore } from "~/app/store/result-store";
-import { Button } from "~/components/ui/button";
 import { useRouter } from 'next/navigation';
 import { cn, encrypt, getBreathingRate } from "~/lib/utils";
 import { Result } from "~/types";
 import { useTranslations } from "next-intl";
-import { ClipboardCheckIcon, PauseIcon, PlayIcon, RefreshCcwIcon, ShareIcon } from "lucide-react";
+import { ClipboardCheckIcon, PauseIcon, PlayIcon, RefreshCcwIcon } from "lucide-react";
 import { ButtonWithTooltip } from "~/components/ui/button-with-tooltip";
 import Link from "next/link";
 
@@ -18,7 +17,6 @@ export function Timer({ mode, age }: { mode: 30 | 60, age: number }) {
     const [count, setCount] = useState(0);
     const { result, setResult } = useResultStore();
     const [cycleCompleted, setCycleCompleted] = useState(false);
-    const [currentAge, setCurrentAge] = useState(age);
     const router = useRouter();
 
     useEffect(() => {
@@ -46,7 +44,7 @@ export function Timer({ mode, age }: { mode: 30 | 60, age: number }) {
                 ...result,
                 state: 1,
                 mode,
-                age: currentAge,
+                age,
                 average: (result?.average ?? 0) + (count / ((result?.cycles?.length ?? 0) + 1)),
                 cycles: [...(result?.cycles ?? []), {
                     count,
@@ -57,17 +55,7 @@ export function Timer({ mode, age }: { mode: 30 | 60, age: number }) {
             setResult(newResult);
             setCycleCompleted(false);
         }
-    }, [cycleCompleted, mode, count, result, currentAge, setResult]);
-
-    const handleAgeChange = (newAge: number) => {
-        if (result?.cycles.length === 0) {
-            setCurrentAge(() => newAge);
-            const updatedResult = { ...result, age: newAge };
-            setResult(updatedResult);
-            const encryptedResult = encrypt(updatedResult);
-            router.replace(`/${encryptedResult}`);
-        }
-    };
+    }, [cycleCompleted, mode, count, result, setResult]);
 
     const handleStart = (e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
         e.stopPropagation();
@@ -106,7 +94,7 @@ export function Timer({ mode, age }: { mode: 30 | 60, age: number }) {
         <div className="flex flex-col gap-4 items-center justify-center grow h-full">
             <div className="mt-auto sm:mt-0">
                 <div className="flex flex-col justify-center items-center p-4">
-                    <h2>{t('label.normal', { bpm: getBreathingRate(currentAge), textMode: mode === 30 ? `${mode} ${t('label.seconds')}` : `${t('label.minute')}` })}</h2>
+                    <h2>{t('label.normal', { bpm: getBreathingRate(age), textMode: mode === 30 ? `${mode} ${t('label.seconds')}` : `${t('label.minute')}` })}</h2>
                     <Link
                         href="https://www.halodoc.com/artikel/ketahui-frekuensi-napas-normal-dari-bayi-sampai-lansia#:~:text=Bayi%20(0%2D1%20tahun,28%20napas%20per%20menit."
                         target="_blank"

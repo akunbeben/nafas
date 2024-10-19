@@ -55,6 +55,7 @@ export default async function ResultsPage({ params }: { params: { enc: string } 
     try {
         result = decrypt<Result>(params.enc);
     } catch (error) {
+        console.error(error);
         redirect('/');
     }
 

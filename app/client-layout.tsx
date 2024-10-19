@@ -1,14 +1,11 @@
 "use client";
 
-import { GlobeIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useCookies } from "next-client-cookies";
-import { useTheme } from "next-themes";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Result } from "~/types";
 import { decrypt, encrypt } from "~/lib/utils";
 import { ButtonWithTooltip } from "~/components/ui/button-with-tooltip";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 import ThemeSwitch from "~/components/ui/theme-switch";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -19,7 +16,6 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     const params = useParams<{ enc: string }>();
     const pathname = usePathname();
     const data = decrypt<Result>(params.enc);
-    const { theme, setTheme } = useTheme();
     const isResultsPage = pathname.includes('/results');
 
     return (

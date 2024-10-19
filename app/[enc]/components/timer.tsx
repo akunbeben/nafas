@@ -5,6 +5,7 @@ import { useResultStore } from "~/app/store/result-store";
 import { Button } from "~/components/ui/button";
 import { useRouter } from 'next/navigation';
 import { encrypt } from "~/lib/utils";
+import { Result } from "~/types";
 
 export function Timer({ mode, age }: { mode: 30 | 60, age: number }) {
     const [time, setTime] = useState<number>(mode);
@@ -80,7 +81,7 @@ export function Timer({ mode, age }: { mode: 30 | 60, age: number }) {
     }
 
     const handleSeeResults = () => {
-        const encryptedResult = encrypt(result);
+        const encryptedResult = encrypt(result as Result);
         router.push(`/${encryptedResult}/results`);
     }
 

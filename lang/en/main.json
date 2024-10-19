@@ -3,17 +3,60 @@
         "label": {
             "title": "Breathing Rate Counter",
             "description": "Count breaths for early diagnosis of Pneumonia, Asthma, Bronchitis and other causes of respiratory diseases. Share the result with your doctor.",
-            "input": "Enter the number of breaths per minute",
-            "button": "Count"
+            "input": "Enter the number of breaths per {textMode}",
+            "button": "Count",
+            "normal": "Normal Breathing Rate: {bpm} breaths/{textMode}",
+            "start": "Tap this box to start",
+            "continue": "Keep tapping to continue",
+            "source": "Source",
+            "age": "Age",
+            "timer": "Time",
+            "mode": "Mode {textMode}",
+            "minute": "minute",
+            "seconds": "seconds",
+            "result": {
+                "title": "Results",
+                "description": "Share this result with your doctor.",
+                "average": "Average",
+                "counts": "Breathing Rate",
+                "bpm": "{bpm} breaths/{textMode}",
+                "iteration": "Iteration",
+                "count": "Breathing Rate",
+                "lastCycle": "Last cycle: {bpm} breaths/{textMode}",
+                "total": "Total",
+                "min": "Minimum",
+                "max": "Maximum",
+                "mode": "Mode: {textMode}",
+                "cycles": "Total Iterations"
+            }
         },
         "table": {},
-        "action": {},
+        "action": {
+            "new": "Start New Session",
+            "copy": "Copy & Share Results",
+            "start": "Start",
+            "continue": "Continue",
+            "pause": "Pause",
+            "reset": "Reset",
+            "seeResults": "See Results"
+        },
         "input": {
             "label": {},
             "placeholder": {},
             "error": {}
         },
         "dialog": {},
-        "toast": {}
+        "toast": {
+            "copy": {
+                "title": {
+                    "success": "Link Copied",
+                    "error": "Copy Failed"
+                },
+                "content": {
+                    "success": "You can share it with your doctor.",
+                    "error": "Failed to copy link. Please try again."
+                }
+            }
+        }
     }
 }

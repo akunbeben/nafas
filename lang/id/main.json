@@ -1,19 +1,62 @@
 {
     "Main": {
         "label": {
-            "title": "Hitung Nafas",
-            "description": "Hitung nafas untuk diagnosa awal Pneumonia, Asma, Bronkitis dan ISPA lainnya. Bagikan hasilnya dengan dokter anda.",
-            "input": "Masukkan jumlah nafas per menit",
-            "button": "Hitung"
+            "title": "Hitung Laju Napas",
+            "description": "Hitung laju napas untuk diagnosa awal Pneumonia, Asma, Bronkitis dan ISPA lainnya. Bagikan hasilnya dengan dokter anda.",
+            "input": "Masukkan jumlah nafas per {textMode}",
+            "button": "Hitung",
+            "normal": "Laju Napas Normal: {bpm} napas/{textMode}",
+            "start": "Tekan kotak ini untuk mulai",
+            "continue": "Tekan kotak ini untuk melanjutkan",
+            "source": "Sumber",
+            "age": "Umur",
+            "timer": "Waktu",
+            "mode": "Mode {textMode}",
+            "minute": "menit",
+            "seconds": "detik",
+            "result": {
+                "title": "Hasil",
+                "description": "Bagikan hasil ini dengan dokter Anda.",
+                "average": "Rata-rata",
+                "counts": "Jumlah Napas",
+                "bpm": "{bpm} napas/{textMode}",
+                "iteration": "Iterasi",
+                "count": "Napas",
+                "lastCycle": "Iterasi Terakhir: {bpm} napas/{textMode}",
+                "total": "Total",
+                "min": "Minimum",
+                "max": "Maksimum",
+                "mode": "Mode: {textMode}",
+                "cycles": "Total Iterasi"
+            }
         },
         "table": {},
-        "action": {},
+        "action": {
+            "new": "Mulai Sesi Baru",
+            "copy": "Salin & Bagikan Hasil",
+            "start": "Mulai",
+            "continue": "Lanjutkan",
+            "pause": "Jeda",
+            "reset": "Ulang",
+            "seeResults": "Lihat Hasil"
+        },
         "input": {
             "label": {},
             "placeholder": {},
             "error": {}
         },
         "dialog": {},
-        "toast": {}
+        "toast": {
+            "copy": {
+                "title": {
+                    "success": "Link Disalin",
+                    "error": "Gagal Menyalin Link"
+                },
+                "content": {
+                    "success": "Anda dapat membagikannya dengan dokter Anda.",
+                    "error": "Gagal menyalin link. Silakan coba lagi."
+                }
+            }
+        }
     }
 }

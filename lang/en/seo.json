@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "main": {
+            "title": "Breathing Rate Test",
+            "description": "Breathing rate test for early diagnosis of Pneumonia, Asthma, Bronchitis and other causes of respiratory diseases."
+        },
+        "results": {
+            "title": "Breathing Rate Test Results",
+            "description": "Breathing rate test results for a {age}-year-old patient. {totalCycles} iterations. Last cycle rate {lastCycleRate} breaths/minute. Average breathing rate {averageRate} breaths/minute."
+        }
+    }
+}

@@ -56,3 +56,21 @@ export function decrypt<T>(encrypted: string): T {
   const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
   return JSON.parse(decryptedString);
 }
+
+export const getBreathingRate = (age: number) => {
+  if (age < 1) {
+    return '30-60';
+  } else if (age < 3) {
+    return '24-40';
+  } else if (age < 6) {
+    return '22-34';
+  } else if (age < 12) {
+    return '18-30';
+  } else if (age < 18) {
+    return '12-16';
+  } else if (age < 60) {
+    return '12-20';
+  } else {
+    return '28';
+  }
+};

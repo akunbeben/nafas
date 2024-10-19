@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "main": {
+            "title": "Hitung Laju Napas",
+            "description": "Hitung laju napas untuk diagnosa awal Pneumonia, Asma, Bronkitis dan ISPA lainnya."
+        },
+        "results": {
+            "title": "Hasil Hitung Laju Napas",
+            "description": "Hasil hitung laju napas pasien berusia {age} tahun. Dilakukan sebanyak {totalCycles} kali. Laju napas terakhir {lastCycleRate} napas/menit. Rata-rata laju napas {averageRate} napas/menit."
+        }
+    }
+}

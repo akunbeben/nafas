@@ -1,0 +1,12 @@
+{
+    "StructuredData": {
+        "name": "Breathing Rate Test",
+        "description": "Breathing rate test results for a {age}-year-old patient",
+        "deviceName": "Breathing Rate Calculator",
+        "resultPanelName": "Breathing Rate Results",
+        "averageRateName": "Average Breathing Rate",
+        "totalCyclesName": "Total Cycles",
+        "lastCycleRateName": "Last Cycle Breathing Rate",
+        "bpm": "{bpm} breaths/min"
+    }
+}

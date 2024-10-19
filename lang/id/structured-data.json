@@ -1,0 +1,12 @@
+{
+    "StructuredData": {
+        "name": "Hitung Laju Napas",
+        "description": "Hasil hitung laju napas pasien berusia {age} tahun",
+        "deviceName": "Kalkulator Laju Napas",
+        "resultPanelName": "Hasil Hitung Laju Napas",
+        "averageRateName": "Rata-rata Laju Napas",
+        "totalCyclesName": "Jumlah Iterasi",
+        "lastCycleRateName": "Laju Napas Iterasi Terakhir",
+        "bpm": "{bpm} napas/menit"
+    }
+}

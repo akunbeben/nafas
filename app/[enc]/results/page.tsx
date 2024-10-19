@@ -3,26 +3,35 @@ import { Result } from "~/types";
 import { Metadata } from "next";
 import { ResultsDisplay } from "../components/results-display";
 import Script from 'next/script';
+import { notFound, redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }: { params: { enc: string } }): Promise<Metadata> {
-    const result = decrypt<Result>(params.enc);
+    const t = await getTranslations('SEO.results');
+
+    let result: Result;
+
+    try {
+        result = decrypt<Result>(params.enc);
+    } catch (error) {
+        console.error(error);
+        notFound();
+    }
 
     const averageRate = result.average.toFixed(2);
     const totalCycles = result.cycles.length;
     const lastCycleRate = result.cycles[totalCycles - 1]?.count || 0;
 
-    const getBreathingRate = (age: number) => {
-        if (age < 1) return '30-60';
-        if (age < 3) return '24-40';
-        if (age < 6) return '22-34';
-        if (age < 12) return '18-30';
-        return '12-20';
-    };
-
-    const normalRate = getBreathingRate(result.age);
-
-    const title = `Breathing Rate Results: ${averageRate} breaths/min`;
-    const description = `Age: ${result.age} years, Average: ${averageRate} breaths/min, Cycles: ${totalCycles}, Last cycle: ${lastCycleRate} breaths/min, Normal range: ${normalRate} breaths/min`;
+    const title = t('title', { averageRate: averageRate });
+    const description = t(
+        'description',
+        {
+            age: result.age,
+            totalCycles: totalCycles,
+            lastCycleRate: lastCycleRate,
+            averageRate: averageRate
+        }
+    );
 
     return {
         title,
@@ -40,7 +49,16 @@ export async function generateMetadata({ params }: { params: { enc: string } }):
 }
 
 export default async function ResultsPage({ params }: { params: { enc: string } }) {
-    const result = decrypt<Result>(params.enc);
+    const t = await getTranslations('StructuredData');
+    let result: Result;
+
+    try {
+        result = decrypt<Result>(params.enc);
+    } catch (error) {
+        redirect('/');
+    }
+
+    if (result.state === 0) redirect(`/${params.enc}`);
 
     const averageRate = result.average.toFixed(2);
     const totalCycles = result.cycles.length;
@@ -49,19 +67,20 @@ export default async function ResultsPage({ params }: { params: { enc: string } 
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "MedicalTest",
-        "name": "Breathing Rate Test",
-        "description": `Breathing rate test results for a ${result.age}-year-old patient`,
+        "name": t('name'),
+        "description": t('description', { age: result.age }),
         "usesDevice": {
             "@type": "MedicalDevice",
-            "name": "Breathing Rate Calculator"
+            "name": t('deviceName'),
+            "url": `${process.env.APP_URL}/${params.enc}/results`
         },
         "result": {
             "@type": "MedicalTestPanel",
-            "name": "Breathing Rate Results",
+            "name": t('resultPanelName'),
             "result": [
                 {
                     "@type": "MedicalTest",
-                    "name": "Average Breathing Rate",
+                    "name": t('averageRateName'),
                     "result": {
                         "@type": "MedicalTestPanel",
                         "value": averageRate,
@@ -70,7 +89,7 @@ export default async function ResultsPage({ params }: { params: { enc: string } 
                 },
                 {
                     "@type": "MedicalTest",
-                    "name": "Total Cycles",
+                    "name": t('totalCyclesName'),
                     "result": {
                         "@type": "MedicalTestPanel",
                         "value": totalCycles
@@ -78,7 +97,7 @@ export default async function ResultsPage({ params }: { params: { enc: string } 
                 },
                 {
                     "@type": "MedicalTest",
-                    "name": "Last Cycle Breathing Rate",
+                    "name": t('lastCycleRateName'),
                     "result": {
                         "@type": "MedicalTestPanel",
                         "value": lastCycleRate,

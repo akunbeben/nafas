@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const mode = parseInt(searchParams.get('mode') || '60', 10) as 30 | 60;
 
     const init: Result = {
+        state: 0,
         cycles: [],
         average: 0,
         mode: mode,

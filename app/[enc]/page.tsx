@@ -2,6 +2,7 @@ import { decrypt } from "~/lib/utils";
 import { Result } from "~/types";
 import { Timer } from "./components/timer";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
     return {
@@ -15,11 +16,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page({ params }: { params: { enc: string } }) {
-    const result = decrypt<Result>(params.enc);
+    let result: Result;
 
-    return (
-        <div className="flex flex-col gap-4 min-h-screen w-full items-center justify-center">
-            <Timer mode={result.mode} age={result.age} />
-        </div>
-    )
+    try {
+        result = decrypt<Result>(params.enc);
+    } catch (error) {
+        redirect('/');
+    }
+
+    return <Timer mode={result.mode} age={result.age} />
 }

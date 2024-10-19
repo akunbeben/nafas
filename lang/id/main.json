@@ -1,0 +1,19 @@
+{
+    "Main": {
+        "label": {
+            "title": "Hitung Nafas",
+            "description": "Hitung nafas untuk diagnosa awal Pneumonia, Asma, Bronkitis dan ISPA lainnya. Bagikan hasilnya dengan dokter anda.",
+            "input": "Masukkan jumlah nafas per menit",
+            "button": "Hitung"
+        },
+        "table": {},
+        "action": {},
+        "input": {
+            "label": {},
+            "placeholder": {},
+            "error": {}
+        },
+        "dialog": {},
+        "toast": {}
+    }
+}

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     const id = nanoid(8);
-    const shortUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/s/${id}`;
+    const shortUrl = `${process.env.APP_URL}/s/${id}`;
 
     urlMap.set(id, url);
 

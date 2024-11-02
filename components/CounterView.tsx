@@ -48,7 +48,7 @@ export const CounterView: React.FC = () => {
   return (
     <div className="min-h-screen bg-blue-50 flex flex-col">
       <div className="flex-1 max-w-md mx-auto w-full px-4 py-8 flex flex-col">
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-4">
+        <div className="bg-white rounded-2xl shadow p-6 mb-4">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-2">
               <Timer className="w-6 h-6 text-blue-600" />
@@ -78,7 +78,7 @@ export const CounterView: React.FC = () => {
 
         <button
           onClick={!counter.isActive ? counter.startTimer : counter.increment}
-          className={`flex-1 rounded-2xl shadow-lg transition ${!counter.isActive
+          className={`flex-1 rounded-2xl shadow transition ${!counter.isActive
             ? "bg-blue-600 text-white hover:bg-blue-700"
             : "bg-white text-blue-600 hover:bg-gray-50"
             }`}

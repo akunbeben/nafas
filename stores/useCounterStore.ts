@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { encodeState, decodeState } from '~/utils/stateManagement';
+import { encodeState, decodeState } from '~/utils/helper';
 
 interface CounterStore {
     count: number;

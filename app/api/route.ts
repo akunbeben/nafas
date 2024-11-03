@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
   try {
     const page = await browser.newPage()
     const url = request.nextUrl.searchParams.get("path") as string
+    await page.setViewport({ width: 1200, height: 630 })
     await page.goto(url)
 
     const data = await page.screenshot({

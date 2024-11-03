@@ -1,14 +1,11 @@
 import { NextRequest } from "next/server"
 import puppeteer from "puppeteer"
 import chromium from "@sparticuz/chromium"
-import * as install from "puppeteer/internal/node/install.js"
 
 export const maxDuration = 60
 export const revalidate = 300
 
 export async function GET(request: NextRequest) {
-  await install.downloadBrowsers()
-
   const browser = await puppeteer.launch({
     args: chromium.args,
     executablePath: await chromium.executablePath(),

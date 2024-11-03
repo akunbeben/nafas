@@ -9,7 +9,8 @@ export async function GET(request: NextRequest) {
   const browser = await puppeteer.launch({
     args: chromium.args,
     executablePath: await chromium.executablePath(),
-    headless: true
+    headless: true,
+    ignoreDefaultArgs: ["--disable-extensions"]
   })
 
   try {

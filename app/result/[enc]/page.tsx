@@ -1,13 +1,9 @@
+import { decodeState } from "~/utils/helper";
 import { ResultsView } from "~/components/ResultsView";
-import { headers } from 'next/headers';
-import { getFullUrl, decodeState } from "~/utils/helper";
 
 export async function generateMetadata({ params }: { params: Promise<{ enc: string }> }) {
   const { enc } = await params;
   const counter = decodeState(enc);
-  const headersList = headers();
-  const pathParam = `${getFullUrl(headersList.get('host'))}/result/${enc}`;
-  const ogImage = `${getFullUrl(headersList.get('host'))}/api?path=${pathParam}`;
 
   return {
     title: 'Respiratory rate result',
@@ -20,7 +16,6 @@ export async function generateMetadata({ params }: { params: Promise<{ enc: stri
     openGraph: {
       title: 'Respiratory rate result',
       description: `Respiratory Rate and measurement details`,
-      images: [ogImage]
     }
   }
 }

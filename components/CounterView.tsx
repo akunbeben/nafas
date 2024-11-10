@@ -36,7 +36,7 @@ export const CounterView: React.FC = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [counter.isActive, counter.startTime, counter.duration, router]);
+  }, [counter, router]);
 
   const getEstimatedRate = () => {
     if (timeLeft > counter.duration / 2) {

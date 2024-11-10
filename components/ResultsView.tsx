@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Share2, Info, ImageIcon, LinkIcon } from 'lucide-react';
+import { Info, ImageIcon, LinkIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ResultCard } from './ResultCard';
 import Link from 'next/link';

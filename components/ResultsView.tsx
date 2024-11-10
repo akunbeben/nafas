@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Share2, Info } from 'lucide-react';
+import { Share2, Info, ImageIcon, LinkIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ResultCard } from './ResultCard';
 import Link from 'next/link';
@@ -54,17 +54,19 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
               New Count
             </button>
             <button
+              onClick={downloadResult}
+              className="px-4 py-2 text-gray-700 transition bg-gray-100 rounded-lg hover:bg-gray-200"
+            >
+              <ImageIcon className="w-5 h-5" />
+            </button>
+            <button
               onClick={() => {
-                downloadResult();
-
-                return;
-
-                // navigator.clipboard.writeText(window.location.href);
-                // alert('Link copied to clipboard!');
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
               }}
               className="px-4 py-2 text-gray-700 transition bg-gray-100 rounded-lg hover:bg-gray-200"
             >
-              <Share2 className="w-5 h-5" />
+              <LinkIcon className="w-5 h-5" />
             </button>
           </div>
         </ResultCard>
@@ -102,6 +104,16 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
                 </Link>
               </p>
             </div>
+          </div>
+        </div>
+
+        <div className="p-4 bg-white shadow rounded-2xl space-y-2">
+          <h2>About</h2>
+
+          <div className="text-xs text-gray-500">
+            <p>We do not collect any data from this measurement.</p>
+            <p>Your measurement data resides in the encrypted URL parameter.</p>
+            <p>To share the results, simply copy the URL or download it.</p>
           </div>
         </div>
 

@@ -73,7 +73,8 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
   },
 
   loadState: (encodedState: string) => {
-    const decoded = decodeState(encodedState);
+    const [_, decoded] = decodeState(encodedState);
+
     if (decoded) {
       set({
         count: parseInt(decoded.c),

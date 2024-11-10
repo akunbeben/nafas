@@ -4,11 +4,11 @@ export const encodeState = (state: CounterState): string => {
   return btoa(JSON.stringify(state));
 };
 
-export const decodeState = (encoded?: string): CounterState | null => {
+export const decodeState = (encoded?: string): [error: boolean, data: CounterState | null] => {
   try {
-    return JSON.parse(atob(encoded || ''));
+    return [false, JSON.parse(atob(encoded || ''))];
   } catch {
-    return null;
+    return [true, null];
   }
 };
 

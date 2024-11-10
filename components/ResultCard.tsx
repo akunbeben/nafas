@@ -2,13 +2,19 @@ import { Activity } from "lucide-react";
 import { PropsWithChildren } from "react";
 import { decodeState, getRateCategory } from "~/utils/helper";
 import { format } from 'date-fns';
+import { redirect } from "next/navigation";
 
 type Props = {
   state: string;
 }
 
 export function ResultCard({ children, state }: PropsWithChildren<Props>) {
-  const decoded = decodeState(decodeURIComponent(state));
+  const [error, decoded] = decodeState(decodeURIComponent(state));
+
+  if (error) {
+    redirect('/');
+  }
+
   const rate = Math.round((parseInt(decoded?.c || '0') / parseInt(decoded?.d || '0')) * 60);
   const rateStatus = getRateCategory(rate);
   const unixTime = !decoded?.t ? 0 : parseInt(decoded.t);

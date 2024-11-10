@@ -11,7 +11,11 @@ import { decodeState } from '~/utils/helper';
 export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
   const router = useRouter();
   const [showAgeRanges, setShowAgeRanges] = useState(false);
-  const result = decodeState(state);
+  const [error, result] = decodeState(state);
+
+  if (error) {
+    router.push('/');
+  }
 
   const downloadResult = () => {
     const element = document.getElementById('result-card');
@@ -112,7 +116,7 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
 
           <div className="text-xs text-gray-500">
             <p>We do not collect any data from this measurement.</p>
-            <p>Your measurement data resides in the encrypted URL parameter.</p>
+            <p>Your measurement data resides in the encoded URL parameter.</p>
             <p>To share the results, simply copy the URL or download it.</p>
           </div>
         </div>

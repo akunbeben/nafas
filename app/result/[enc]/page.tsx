@@ -3,7 +3,11 @@ import { ResultsView } from "~/components/ResultsView";
 
 export async function generateMetadata({ params }: { params: Promise<{ enc: string }> }) {
   const { enc } = await params;
-  const counter = decodeState(enc);
+  const [error, counter] = decodeState(enc);
+
+  if (error) {
+    return {};
+  }
 
   return {
     title: 'Respiratory rate result',

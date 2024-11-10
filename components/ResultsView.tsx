@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Info, ImageIcon, LinkIcon } from 'lucide-react';
+import { Info, ImageIcon, LinkIcon, GithubIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ResultCard } from './ResultCard';
 import Link from 'next/link';
@@ -43,7 +43,7 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen bg-blue-50 relative">
       <div className="h-full max-w-md px-4 py-8 mx-auto space-y-4">
         <ResultCard state={state}>
           <div className="flex space-x-3">
@@ -117,6 +117,13 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
           </div>
         </div>
 
+      </div>
+
+      <div className="absolute gap-2 bottom-2 inset-x-0 text-center text-sm text-gray-500">
+        <a href="https://github.com/akunbeben/nafas" target="_blank" className="flex justify-center gap-1">
+          <GithubIcon className="w-4 h-4" />
+          https://github.com/akunbeben/nafas
+        </a>
       </div>
     </div>
   );

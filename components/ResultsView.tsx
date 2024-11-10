@@ -4,11 +4,43 @@ import React, { useState } from 'react';
 import { Share2, Info } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ResultCard } from './ResultCard';
+import Link from 'next/link';
+import * as htmlToImage from 'html-to-image';
+import { decodeState } from '~/utils/helper';
 
 export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
   const router = useRouter();
-  const [showCategories, setShowCategories] = useState(false);
   const [showAgeRanges, setShowAgeRanges] = useState(false);
+  const result = decodeState(state);
+
+  const downloadResult = () => {
+    const element = document.getElementById('result-card');
+
+    if (!element) {
+      alert('Could not generate image');
+      return;
+    }
+
+    const children = element.querySelector('#children') as HTMLDivElement
+    element.removeChild(children);
+
+    htmlToImage.toPng(element)
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `${result?.t}.png`;
+
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        alert('Could not generate image');
+        console.error('Could not generate image', error);
+      })
+      .finally(() => {
+        element.appendChild(children);
+      });
+  };
 
   return (
     <div className="min-h-screen bg-blue-50">
@@ -23,8 +55,12 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
             </button>
             <button
               onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                alert('Link copied to clipboard!');
+                downloadResult();
+
+                return;
+
+                // navigator.clipboard.writeText(window.location.href);
+                // alert('Link copied to clipboard!');
               }}
               className="px-4 py-2 text-gray-700 transition bg-gray-100 rounded-lg hover:bg-gray-200"
             >
@@ -39,7 +75,7 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
             className="flex justify-between items-center w-full text-left"
           >
             <span className="font-medium text-gray-900">Age-Specific Normal Ranges</span>
-            <Info className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${showAgeRanges ? 'rotate-180' : ''}`} />
+            <Info className={`w-5 h-5 text-gray-600 transition-transform duration-200`} />
           </button>
 
           <div className={`grid transition-all duration-200 ease-in-out ${showAgeRanges ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`}>
@@ -56,35 +92,15 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
                 <li>Elderly (≥80 years): 10-30 breaths/min</li>
               </ul>
               <p className="mt-2 text-xs">
-                Source: <a
+                Source: <Link
                   href="https://en.wikipedia.org/wiki/Respiratory_rate#Normal_range"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline"
                 >
                   Wikipedia
-                </a>
+                </Link>
               </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-4 bg-white shadow rounded-2xl">
-          <button
-            onClick={() => setShowCategories(!showCategories)}
-            className="flex justify-between items-center w-full text-left"
-          >
-            <span className="font-medium text-gray-900">Clinical Categories</span>
-            <Info className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${showCategories ? 'rotate-180' : ''}`} />
-          </button>
-
-          <div className={`grid transition-all duration-200 ease-in-out ${showCategories ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`}>
-            <div className="overflow-hidden">
-              <ul className="list-disc list-inside pl-4 space-y-1 text-sm text-gray-600">
-                <li>Below Normal: &lt;16 breaths/min</li>
-                <li>Normal Range: 16-20 breaths/min</li>
-                <li>Above Normal: &gt;20 breaths/min</li>
-              </ul>
             </div>
           </div>
         </div>

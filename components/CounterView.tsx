@@ -39,6 +39,10 @@ export const CounterView: React.FC = () => {
   }, [counter.isActive, counter.startTime, counter.duration, router]);
 
   const getEstimatedRate = () => {
+    if (timeLeft > counter.duration / 2) {
+      return 0;
+    }
+
     if (counter.count === 0) return 0;
     const elapsedTime = counter.duration - timeLeft;
     if (elapsedTime <= 0) return 0;

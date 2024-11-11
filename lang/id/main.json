@@ -1,0 +1,57 @@
+{
+  "Main": {
+    "seo": {
+      "index": {
+        "title": "Hitung Laju Pernapasan",
+        "description": "Hitung laju pernapasan - Ukur laju pernapasan Anda dengan mudah dan cepat"
+      },
+      "result": {
+        "title": "Hasil Penghitungan",
+        "description": "Laju Pernapasan dan detail penghitungan"
+      }
+    },
+    "label": {
+      "timeLeft": "detik tersisa",
+      "count": "Terhitung",
+      "estimated": "Perkiraan hitungan",
+      "seconds": "detik",
+      "bpm": "napas/menit",
+      "result": "Hasil",
+      "rate": "Laju Pernapasan",
+      "total": "Jumlah napas terhitung",
+      "measured_over": "Penghitungan dalam",
+      "measured_at": "Dilakukan pada",
+      "source": "Sumber",
+      "about": {
+        "title": "Informasi",
+        "0": "Kami tidak mengumpulkan data apa pun dari penghitungan ini.",
+        "1": "Data penghitungan Anda tersimpan di parameter URL yang telah dienkripsi.",
+        "2": "Untuk membagikan hasilnya, cukup salin URL atau unduh hasilnya."
+      },
+      "ages": {
+        "title": "Rentang Normal Berdasarkan Usia",
+        "0": "Lahir hingga 6 minggu: 30-40 napas/menit",
+        "1": "6 bulan: 25-40 napas/menit",
+        "2": "3 tahun: 20-30 napas/menit",
+        "3": "6 tahun: 18-25 napas/menit",
+        "4": "10 tahun: 17-23 napas/menit",
+        "5": "Dewasa: 15-18 napas/menit",
+        "6": "50 tahun: 18-25 napas/menit",
+        "7": "Lansia (≥65 tahun): 12-28 napas/menit",
+        "8": "Lansia (≥80 tahun): 10-30 napas/menit"
+      }
+    },
+    "action": {
+      "start_over": "Mulai Ulang",
+      "switch": "Ubah ke {duration} detik",
+      "start": "Mulai Penghitungan",
+      "tap": "Tap untuk menghitung",
+      "id": "Bahasa Indonesia",
+      "en": "English"
+    },
+    "misc": {
+      "error_image": "Gagal membuat gambar",
+      "link_copied": "Link disalin ke clipboard!"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "Main": {
+    "seo": {
+      "index": {
+        "title": "Respiratory Rate Counter",
+        "description": "Respiratory rate counter - Quickly measure your respiratory rate with ease"
+      },
+      "result": {
+        "title": "Measurement Result",
+        "description": "Respiratory Rate and measurement details"
+      }
+    },
+    "label": {
+      "timeLeft": "seconds left",
+      "count": "Count",
+      "estimated": "Estimated rate",
+      "seconds": "seconds",
+      "bpm": "breaths/min",
+      "result": "Result",
+      "rate": "Respiratory Rate",
+      "total": "Total breaths counted",
+      "measured_over": "Measured over",
+      "measured_at": "Measured at",
+      "source": "Source",
+      "about": {
+        "title": "About",
+        "0": "We do not collect any data from this measurement.",
+        "1": "Your measurement data resides in the encoded URL parameter.",
+        "2": "To share the results, simply copy the URL or download it."
+      },
+      "ages": {
+        "title": "Age-Specific Normal Ranges",
+        "0": "Birth to 6 weeks: 30-40 breaths/min",
+        "1": "6 months: 25-40 breaths/min",
+        "2": "3 years: 20-30 breaths/min",
+        "3": "6 years: 18-25 breaths/min",
+        "4": "0 years: 17-23 breaths/min",
+        "5": "Adults: 15-18 breaths/min",
+        "6": "50 years: 18-25 breaths/min",
+        "7": "Elderly (≥65 years): 12-28 breaths/min",
+        "8": "Elderly (≥80 years): 10-30 breaths/min"
+      }
+    },
+    "action": {
+      "start_over": "Start Over",
+      "switch": "Switch to {duration}s",
+      "start": "Start Counting",
+      "tap": "Tap to Count",
+      "id": "Bahasa Indonesia",
+      "en": "English"
+    },
+    "misc": {
+      "error_image": "Could not generate image",
+      "link_copied": "Link copied to clipboard!"
+    }
+  }
+}

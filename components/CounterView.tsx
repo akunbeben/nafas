@@ -67,7 +67,13 @@ export const CounterView: React.FC = () => {
   return (
     <div className="min-h-screen bg-blue-50 flex flex-col">
       <div className="flex-1 max-w-md mx-auto w-full p-4 flex flex-col">
-        <button className="mb-4 w-fit mx-auto" onClick={toggleLocale}>{locale.toUpperCase()}</button>
+        <button
+          className={`mb-4 w-fit mx-auto ${counter.isActive ? 'text-gray-600' : ''}`}
+          disabled={counter.isActive}
+          onClick={toggleLocale}
+        >
+          {locale.toUpperCase()}
+        </button>
         <div className="bg-white rounded-2xl shadow p-6 mb-4">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-2">

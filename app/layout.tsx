@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { CookiesProvider } from 'next-client-cookies/server';
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <CookiesProvider>
           <NextIntlClientProvider messages={messages}>
             {children}
+            <Analytics />
           </NextIntlClientProvider>
         </CookiesProvider>
       </body>

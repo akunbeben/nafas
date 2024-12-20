@@ -37,6 +37,9 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
 
   increment: () => {
     const { isActive } = get();
+
+    navigator.vibrate(100);
+
     if (isActive) {
       set((state) => ({ count: state.count + 1 }));
     }
@@ -60,6 +63,8 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
 
   complete: () => {
     const { count, duration } = get();
+    navigator.vibrate(500);
+
     set({
       isActive: false,
       startTime: null

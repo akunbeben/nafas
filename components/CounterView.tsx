@@ -14,6 +14,7 @@ export const CounterView: React.FC = () => {
   const router = useRouter();
   const counter = useCounterStore();
   const [timeLeft, setTimeLeft] = useState<number>(counter.duration);
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     setTimeLeft(counter.duration);
@@ -64,6 +65,18 @@ export const CounterView: React.FC = () => {
     router.refresh();
   }
 
+  function toggleDuration() {
+    if (counter.duration === 60) {
+      counter.reset(30);
+    } else {
+      counter.reset(60);
+    }
+
+    setAnimate(false);
+    setTimeout(() => setAnimate(true), 10);
+    new Audio('/switch.mp3').play();
+  }
+
   return (
     <div className="min-h-screen bg-blue-50 flex flex-col">
       <div className="flex-1 max-w-md mx-auto w-full p-4 flex flex-col">
@@ -78,13 +91,14 @@ export const CounterView: React.FC = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-2">
               <Timer className="w-6 h-6 text-blue-600" />
-              <span className="text-xl font-semibold">
+              <span className={`text-xl font-semibold ${animate ? "animate-fade-left" : ""}`}>
                 {timeLeft} {t('label.timeLeft')}
               </span>
             </div>
             <button
-              onClick={() => counter.duration === 60 ? counter.reset(30) : counter.reset(60)}
-              className="text-sm px-3 py-1 bg-gray-100 rounded-full hover:bg-gray-200"
+              onClick={() => toggleDuration()}
+              className="text-sm px-3 py-1 bg-gray-100 rounded-full hover:bg-gray-200 disabled:hover:bg-gray-100"
+              disabled={counter.isActive}
             >
               {counter.duration === 60 ? t('action.switch', { duration: 30 }) : t('action.switch', { duration: 60 })}
             </button>

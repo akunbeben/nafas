@@ -21,7 +21,7 @@ export const CounterView: React.FC = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-    let tickAudio = new Audio('/tick.ogg');
+    const tickAudio = new Audio('/tick.ogg');
 
     if (counter.isActive && counter.startTime) {
       interval = setInterval(() => {

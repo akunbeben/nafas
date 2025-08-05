@@ -1,9 +1,10 @@
 import { CounterView } from "~/components/CounterView";
 import { getTranslations } from 'next-intl/server';
 import { cookies } from "next/headers";
+import { Metadata } from "next";
 
-export async function generateMetadata() {
-  const locale = cookies().get('locale')?.value || 'en';
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = (await cookies()).get('locale')?.value || 'en';
   const t = await getTranslations({ locale, namespace: 'Main' });
 
   return {

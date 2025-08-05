@@ -25,10 +25,15 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
   setCount: (count) => set({ count }),
   setDuration: (duration) => set({ duration }),
 
-  startTimer: () => set({
-    isActive: true,
-    startTime: Date.now()
-  }),
+  startTimer: () => {
+    let startAudio = new Audio('/start.ogg');
+    startAudio.play();
+
+    set({
+      isActive: true,
+      startTime: Date.now()
+    })
+  },
 
   stopTimer: () => set({
     isActive: false,

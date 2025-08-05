@@ -1,0 +1,21 @@
+#!/bin/bash
+
+SESSION_NAME="nafas"
+
+tmux has-session -t $SESSION_NAME 2>/dev/null
+
+if [ $? != 0 ]; then
+  tmux new-session -d -s $SESSION_NAME -n editor
+  tmux send-keys -t $SESSION_NAME:0 "vim ." C-m
+
+  tmux new-window -t $SESSION_NAME:1 -n shell
+
+  tmux new-window -t $SESSION_NAME:2 -n monitor
+
+  tmux select-window -t $SESSION_NAME:2
+  tmux send-keys "bun dev" C-m
+
+  tmux select-window -t $SESSION_NAME:0
+fi
+
+tmux attach-session -t $SESSION_NAME

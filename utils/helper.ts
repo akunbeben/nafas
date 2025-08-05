@@ -16,17 +16,17 @@ export const getRateCategory = (rate: number) => {
   if (rate < 16) {
     return {
       category: 'Below Normal',
-      color: 'text-yellow-600'
+      color: '#ca8a04'
     };
   } else if (rate >= 16 && rate <= 20) {
     return {
       category: 'Normal',
-      color: 'text-green-600'
+      color: '#16a34a'
     };
   } else {
     return {
       category: 'Above Normal',
-      color: 'text-yellow-600'
+      color: '#ca8a04'
     };
   }
 };

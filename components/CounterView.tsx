@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation';
 import { useCounterStore } from '~/stores/useCounterStore';
 import { Timer } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useCookies } from 'next-client-cookies';
+import Cookies from 'js-cookie';
 
 export const CounterView: React.FC = () => {
-  const cookies = useCookies();
-  const locale = cookies.get('locale') || 'en';
+  const locale = Cookies.get('locale') || 'en';
   const t = useTranslations('Main');
   const router = useRouter();
   const counter = useCounterStore();
@@ -22,6 +21,7 @@ export const CounterView: React.FC = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
+    let tickAudio = new Audio('/tick.ogg');
 
     if (counter.isActive && counter.startTime) {
       interval = setInterval(() => {
@@ -34,7 +34,12 @@ export const CounterView: React.FC = () => {
           clearInterval(interval!);
           router.push(`/result/${state}`);
         } else {
-          setTimeLeft(remaining);
+          setTimeLeft(currentLeft => {
+            if (remaining < currentLeft) {
+              tickAudio.play();
+            }
+            return remaining;
+          });
         }
       }, 100);
     }
@@ -44,22 +49,11 @@ export const CounterView: React.FC = () => {
     };
   }, [counter, router]);
 
-  const getEstimatedRate = () => {
-    if (timeLeft > counter.duration / 2) {
-      return 0;
-    }
-
-    if (counter.count === 0) return 0;
-    const elapsedTime = counter.duration - timeLeft;
-    if (elapsedTime <= 0) return 0;
-    return Math.round((counter.count / elapsedTime) * 60);
-  };
-
   function toggleLocale() {
     if (locale === 'en') {
-      cookies.set('locale', 'id');
+      Cookies.set('locale', 'id');
     } else {
-      cookies.set('locale', 'en');
+      Cookies.set('locale', 'en');
     }
 
     router.refresh();
@@ -107,11 +101,6 @@ export const CounterView: React.FC = () => {
           <div className="space-y-2">
             <p className="text-gray-600">
               {t('label.count')}: <span className="font-bold text-xl">{counter.count}</span>
-            </p>
-            <p className="text-gray-600">
-              {t('label.estimated')}: <span className="font-bold text-xl">
-                {getEstimatedRate()}
-              </span> {t('label.bpm')}
             </p>
           </div>
         </div>

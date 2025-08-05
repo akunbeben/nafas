@@ -3,9 +3,10 @@ import { ResultsView } from "~/components/ResultsView";
 import { getTranslations } from 'next-intl/server';
 import { cookies } from "next/headers";
 import { format } from "date-fns";
+import { Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: Promise<{ enc: string }> }) {
-  const locale = cookies().get('locale')?.value || 'en';
+export async function generateMetadata({ params }: { params: Promise<{ enc: string }> }): Promise<Metadata> {
+  const locale = (await cookies()).get('locale')?.value || 'en';
   const t = await getTranslations({ locale, namespace: 'Main' });
   const { enc } = await params;
   const [error, counter] = decodeState(enc);
@@ -26,6 +27,17 @@ export async function generateMetadata({ params }: { params: Promise<{ enc: stri
     openGraph: {
       title: t('seo.result.title'),
       description: t('seo.result.title'),
+      images: [
+        `/api/og/${enc}`
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('seo.result.title'),
+      description: t('seo.result.title'),
+      images: [
+        `/api/og/${enc}`
+      ]
     }
   }
 }

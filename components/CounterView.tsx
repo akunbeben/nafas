@@ -14,6 +14,11 @@ export const CounterView: React.FC = () => {
   const counter = useCounterStore();
   const [timeLeft, setTimeLeft] = useState<number>(counter.duration);
   const [animate, setAnimate] = useState(false);
+  const [clickable, setClickable] = useState(true);
+
+  useEffect(() => {
+    setClickable(true);
+  }, [])
 
   useEffect(() => {
     Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone)
@@ -34,9 +39,11 @@ export const CounterView: React.FC = () => {
 
         if (remaining <= 0) {
           const state = counter.complete();
+
+          setClickable(false);
           setTimeLeft(0);
           clearInterval(interval!);
-          router.push(`/result/${state}`);
+          router.push(`/result/${state}?locale=${locale}&tz=${Cookies.get('timezone')}`);
         } else {
           setTimeLeft(currentLeft => {
             if (remaining < currentLeft) {
@@ -60,6 +67,7 @@ export const CounterView: React.FC = () => {
       Cookies.set('locale', 'en');
     }
 
+    setClickable(true);
     router.refresh();
   }
 
@@ -70,6 +78,7 @@ export const CounterView: React.FC = () => {
       counter.reset(60);
     }
 
+    setClickable(true);
     setAnimate(false);
     setTimeout(() => setAnimate(true), 10);
     new Audio('/switch.mp3').play();
@@ -110,6 +119,7 @@ export const CounterView: React.FC = () => {
         </div>
 
         <button
+          disabled={!clickable}
           onClick={!counter.isActive ? counter.startTimer : counter.increment}
           className={`flex-1 rounded-2xl shadow transition ${!counter.isActive
             ? "bg-blue-600 text-white hover:bg-blue-700"

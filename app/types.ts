@@ -2,6 +2,8 @@ export interface CounterState {
   c: string;    // count
   d: string;    // duration
   t: string;    // timestamp
+  lc: string;   // locale
+  tz: string;   // timezone
 }
 
 export interface CounterProps {

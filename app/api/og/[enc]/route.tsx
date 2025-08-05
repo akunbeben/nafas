@@ -1,31 +1,26 @@
 import { format } from 'date-fns-tz';
 import { getTranslations } from 'next-intl/server';
 import { ImageResponse } from 'next/og'
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { decodeState, getRateCategory, isValidTimezone } from '~/utils/helper';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ enc: string }> }) {
   const { enc } = await params;
-  const searchParams = request.nextUrl.searchParams
-  let locale = searchParams.get('locale') ?? 'en';
-  let userTimezone = searchParams.get('tz') || 'UTC';
+  const [err, state] = decodeState(enc);
 
-  if (!['id', 'en'].includes(locale.toString())) {
-    locale = 'en';
+  if (err || state === null) {
+    return new Response(`Failed to generate the image`, {
+      status: 500,
+    });
   }
 
-  if (!isValidTimezone(userTimezone.toString())) {
-    userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  }
-
-
-  const t = await getTranslations({ locale, namespace: 'Main' });
+  const t = await getTranslations({ locale: state.lc, namespace: 'Main' });
   const [error, result] = decodeState(enc);
 
   const rate = Math.round((parseInt(result?.c || '0') / parseInt(result?.d || '0')) * 60);
   const rateStatus = getRateCategory(rate);
   const unixTime = !result?.t ? 0 : parseInt(result.t);
-  const timeZoned = new Date(unixTime).toLocaleString('en-US', { timeZone: userTimezone })
+  const timeZoned = new Date(unixTime).toLocaleString('en-US', { timeZone: state.tz })
 
 
   if (error) {
@@ -120,7 +115,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
                   • {t('label.measured_over')}:&nbsp; <div style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>{result?.d} {t('label.seconds')}</div>
                 </div>
                 <div style={{ color: '#4b5563', display: 'flex', flexDirection: 'row' }}>
-                  • {t('label.measured_at')}:&nbsp; <div style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>{format(timeZoned, 'dd MMM yyyy, HH:mm', { timeZone: userTimezone })}</div>
+                  • {t('label.measured_at')}:&nbsp; <div style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>{format(timeZoned, 'dd MMM yyyy, HH:mm', { timeZone: state.tz })}</div>
                 </div>
               </div>
             </div>

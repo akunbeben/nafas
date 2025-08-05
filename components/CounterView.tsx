@@ -43,7 +43,7 @@ export const CounterView: React.FC = () => {
           setClickable(false);
           setTimeLeft(0);
           clearInterval(interval!);
-          router.push(`/result/${state}?locale=${locale}&tz=${Cookies.get('timezone')}`);
+          router.push(`/result/${state}`);
         } else {
           setTimeLeft(currentLeft => {
             if (remaining < currentLeft) {

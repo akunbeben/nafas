@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { encodeState, decodeState } from '~/utils/helper';
+import Cookies from 'js-cookie';
 
 interface CounterStore {
   count: number;
@@ -62,7 +63,9 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
     return encodeState({
       c: '0',
       d: duration.toString(),
-      t: Date.now().toString()
+      t: Date.now().toString(),
+      lc: Cookies.get('locale') || '',
+      tz: Cookies.get('timezone') || Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
   },
 
@@ -78,7 +81,9 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
     return encodeState({
       c: count.toString(),
       d: duration.toString(),
-      t: Date.now().toString()
+      t: Date.now().toString(),
+      lc: Cookies.get('locale') || '',
+      tz: Cookies.get('timezone') || Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
   },
 

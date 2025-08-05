@@ -1,30 +1,18 @@
-import { decodeState, isValidTimezone } from "~/utils/helper";
+import { decodeState } from "~/utils/helper";
 import { ResultsView } from "~/components/ResultsView";
 import { getTranslations, getLocale } from 'next-intl/server';
 import { format } from "date-fns-tz";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function generateMetadata({ params, searchParams }: { params: Promise<{ enc: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }): Promise<Metadata> {
-  const cookieStore = await cookies();
-  const timeZone = cookieStore.get('timezone')?.value || 'UTC';
-  const { locale: localeQuery, tz } = await searchParams;
+export async function generateMetadata({ params }: { params: Promise<{ enc: string }> }): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'Main' });
   const { enc } = await params;
-  const [error, counter] = decodeState(enc);
-  const unixTime = !counter?.t ? 0 : parseInt(counter.t);
+  const [error, state] = decodeState(enc);
+  const unixTime = !state?.t ? 0 : parseInt(state.t);
 
-  if (!['id', 'en'].includes(localeQuery!.toString())) {
-    redirect(`/result/${enc}?locale=${locale}`);
-  }
-
-  if (!isValidTimezone(tz?.toString())) {
-    redirect(`/result/${enc}?locale=${locale}&tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`);
-  }
-
-  if (error) {
+  if (error || state === null) {
     return {};
   }
 
@@ -32,15 +20,15 @@ export async function generateMetadata({ params, searchParams }: { params: Promi
     title: t('seo.result.title'),
     description: t('seo.result.title'),
     other: {
-      'respiratory-rate': `${counter?.c || 0} breaths/min`,
-      'measurement-duration': `${counter?.d} seconds`,
-      'updated-at': `${format(unixTime, 'dd MMM yyyy, HH:mm', { timeZone })}`
+      'respiratory-rate': `${state.c || 0} breaths/min`,
+      'measurement-duration': `${state.d} seconds`,
+      'updated-at': `${format(unixTime, 'dd MMM yyyy, HH:mm', { timeZone: state.tz })}`
     },
     openGraph: {
       title: t('seo.result.title'),
       description: t('seo.result.title'),
       images: [
-        `/api/og/${enc}?locale=${localeQuery}&tz=${timeZone}`
+        `/api/og/${enc}`
       ]
     },
     twitter: {
@@ -48,23 +36,18 @@ export async function generateMetadata({ params, searchParams }: { params: Promi
       title: t('seo.result.title'),
       description: t('seo.result.title'),
       images: [
-        `/api/og/${enc}?locale=${localeQuery}&tz=${timeZone}`
+        `/api/og/${enc}`
       ]
     }
   }
 }
 
-export default async function Result({ params, searchParams }: { params: Promise<{ enc: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+export default async function Result({ params }: { params: Promise<{ enc: string }> }) {
   const { enc } = await params;
-  const { locale: localeQuery, tz } = await searchParams;
-  const locale = await getLocale();
+  const [error, state] = decodeState(enc);
 
-  if (!['id', 'en'].includes(localeQuery!.toString())) {
-    redirect(`/result/${enc}?locale=${locale}`);
-  }
-
-  if (!isValidTimezone(tz?.toString())) {
-    redirect(`/result/${enc}?locale=${locale}&tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`);
+  if (error || state === null) {
+    redirect(`/result/${enc}`);
   }
 
   return (

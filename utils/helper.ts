@@ -1,5 +1,14 @@
 import { CounterState } from "~/app/types";
 
+export function isValidTimezone(tz?: string): boolean {
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export const encodeState = (state: CounterState): string => {
   return btoa(JSON.stringify(state));
 };

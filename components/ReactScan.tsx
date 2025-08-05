@@ -1,6 +1,6 @@
 "use client";
 
-import { scan } from "react-scan/all-environments";
+import { scan } from "react-scan";
 import { JSX, useEffect } from "react";
 
 export function ReactScan(): JSX.Element {

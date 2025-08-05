@@ -1,11 +1,15 @@
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 import { getTranslations } from 'next-intl/server';
 import { cookies } from 'next/headers';
 import { ImageResponse } from 'next/og'
+import { NextRequest } from 'next/server';
 import { decodeState, getRateCategory } from '~/utils/helper';
 
-export async function GET(request: Request, { params }: { params: Promise<{ enc: string }> }) {
-  const locale = (await cookies()).get('locale')?.value || 'en';
+export async function GET(request: NextRequest, { params }: { params: Promise<{ enc: string }> }) {
+  const cookieStore = await cookies();
+  const userTimezone = cookieStore.get('timezone')?.value || 'UTC';
+  const searchParams = request.nextUrl.searchParams
+  const locale = searchParams.get('locale') ?? 'en';
   const t = await getTranslations({ locale, namespace: 'Main' });
   const { enc } = await params;
 
@@ -45,6 +49,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ enc:
               display: 'flex',
               flexDirection: 'column',
               gap: '1.5rem',
+              width: '80%',
             }}
           >
             <div
@@ -93,7 +98,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ enc:
                       color: rateStatus.color,
                     }}
                   >
-                    {rate} {t('label.bpm')}
+                    {rate}{t('label.bpm')}
                   </div>
                 </div>
               </div>
@@ -106,7 +111,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ enc:
                   • {t('label.measured_over')}:&nbsp; <div style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>{result?.d} {t('label.seconds')}</div>
                 </div>
                 <div style={{ color: '#4b5563', display: 'flex', flexDirection: 'row' }}>
-                  • {t('label.measured_at')}:&nbsp; <div style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>{format(unixTime, 'dd MMM yyyy, HH:mm')}</div>
+                  • {t('label.measured_at')}:&nbsp; <div style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>{format(unixTime, 'dd MMM yyyy, HH:mm', { timeZone: userTimezone })}</div>
                 </div>
               </div>
             </div>

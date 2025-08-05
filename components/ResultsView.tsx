@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Info, ImageIcon, LinkIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ResultCard } from './ResultCard';
@@ -14,14 +14,8 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
   const t = useTranslations('Main');
   const router = useRouter();
   const [showAgeRanges, setShowAgeRanges] = useState(false);
-  const [error, result] = decodeState(state);
+  const [_, result] = decodeState(state);
   const counter = useCounterStore();
-
-  useEffect(() => {
-    if (!error) return;
-
-    router.push('/');
-  }, [error, router]);
 
   function downloadResult() {
     const element = document.getElementById('result-card');

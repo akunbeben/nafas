@@ -4,16 +4,20 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCounterStore } from '~/stores/useCounterStore';
 import { Timer } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Cookies from 'js-cookie';
 
 export const CounterView: React.FC = () => {
-  const locale = Cookies.get('locale') || 'en';
+  const locale = useLocale();
   const t = useTranslations('Main');
   const router = useRouter();
   const counter = useCounterStore();
   const [timeLeft, setTimeLeft] = useState<number>(counter.duration);
   const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone)
+  }, [])
 
   useEffect(() => {
     setTimeLeft(counter.duration);

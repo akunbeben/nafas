@@ -1,14 +1,16 @@
 import { PropsWithChildren } from "react";
 import { decodeState, getRateCategory } from "~/utils/helper";
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 import { redirect } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Cookies from 'js-cookie';
 
 type Props = {
   state: string;
 };
 
 export function ResultCard({ children, state }: PropsWithChildren<Props>) {
+  const timeZone = Cookies.get('timezone') || 'UTC';
   const t = useTranslations('Main');
   const [error, decoded] = decodeState(decodeURIComponent(state));
 
@@ -79,7 +81,7 @@ export function ResultCard({ children, state }: PropsWithChildren<Props>) {
                 alignItems: 'center',
               }}
             >
-              {rate} {t('label.bpm')}
+              {rate}{t('label.bpm')}
             </span>
           </h2>
         </div>
@@ -93,7 +95,7 @@ export function ResultCard({ children, state }: PropsWithChildren<Props>) {
           </p>
           {!decoded?.t ? null : (
             <p style={{ color: '#4b5563' }}>
-              • {t('label.measured_at')}: <strong>{format(unixTime, 'dd MMM yyyy, H:mm')}</strong>
+              • {t('label.measured_at')}: <strong>{format(unixTime, 'dd MMM yyyy, H:mm', { timeZone })}</strong>
             </p>
           )}
         </div>

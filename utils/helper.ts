@@ -53,3 +53,9 @@ export const getFullUrl = (host: string | null): string => {
   const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
   return `${protocol}://${host}`;
 };
+
+export const vibrate = (pattern: VibratePattern) => {
+  if ('vibrate' in navigator) {
+    navigator.vibrate(pattern);
+  }
+};

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { encodeState, decodeState } from '~/utils/helper';
+import { encodeState, decodeState, vibrate } from '~/utils/helper';
 import Cookies from 'js-cookie';
 
 interface CounterStore {
@@ -44,7 +44,7 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
   increment: () => {
     const { isActive } = get();
 
-    navigator.vibrate(100);
+    vibrate(100);
 
     if (isActive) {
       set((state) => ({ count: state.count + 1 }));
@@ -71,7 +71,14 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
 
   complete: () => {
     const { count, duration } = get();
-    navigator.vibrate(500);
+    let beep = new Audio('/start.ogg');
+
+    vibrate(500);
+
+    beep.play();
+    setTimeout(() => {
+      beep.play();
+    }, 500);
 
     set({
       isActive: false,

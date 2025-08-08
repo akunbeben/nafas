@@ -94,27 +94,32 @@ export const CounterView: React.FC = () => {
         >
           {locale.toUpperCase()}
         </button>
-        <div className="bg-white rounded-2xl shadow p-6 mb-4">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-2">
-              <Timer className="w-6 h-6 text-blue-600" />
-              <span className={`text-xl font-semibold ${animate ? "animate-fade-left" : ""}`}>
-                {timeLeft} {t('label.timeLeft')}
-              </span>
+        <div className="relative mb-4">
+          {counter.isActive && (
+            <div className="absolute inset-0 rounded-2xl animate-ping-card bg-blue-500"></div>
+          )}
+          <div className="relative bg-white rounded-2xl shadow p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-2">
+                <Timer className="w-6 h-6 text-blue-600" />
+                <span className={`text-xl font-semibold ${animate ? "animate-fade-left" : ""}`}>
+                  {timeLeft} {t('label.timeLeft')}
+                </span>
+              </div>
+              <button
+                onClick={() => toggleDuration()}
+                className="text-sm px-3 py-1 bg-gray-100 rounded-full hover:bg-gray-200 disabled:hover:bg-gray-100"
+                disabled={counter.isActive}
+              >
+                {counter.duration === 60 ? t('action.switch', { duration: 30 }) : t('action.switch', { duration: 60 })}
+              </button>
             </div>
-            <button
-              onClick={() => toggleDuration()}
-              className="text-sm px-3 py-1 bg-gray-100 rounded-full hover:bg-gray-200 disabled:hover:bg-gray-100"
-              disabled={counter.isActive}
-            >
-              {counter.duration === 60 ? t('action.switch', { duration: 30 }) : t('action.switch', { duration: 60 })}
-            </button>
-          </div>
 
-          <div className="space-y-2">
-            <p className="text-gray-600">
-              {t('label.count')}: <span className="font-bold text-xl">{counter.count}</span>
-            </p>
+            <div className="space-y-2">
+              <p className="text-gray-600">
+                {t('label.count')}: <span className="font-bold text-xl">{counter.count}</span>
+              </p>
+            </div>
           </div>
         </div>
 

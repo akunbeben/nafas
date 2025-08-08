@@ -2,7 +2,7 @@ import { format } from 'date-fns-tz';
 import { getTranslations } from 'next-intl/server';
 import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server';
-import { decodeState, getRateCategory, isValidTimezone } from '~/utils/helper';
+import { decodeState, getRateCategory } from '~/utils/helper';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ enc: string }> }) {
   const { enc } = await params;
@@ -21,7 +21,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const rateStatus = getRateCategory(rate);
   const unixTime = !result?.t ? 0 : parseInt(result.t);
   const timeZoned = new Date(unixTime).toLocaleString('en-US', { timeZone: state.tz })
-
 
   if (error) {
     return new Response(`Failed to generate the image`, {

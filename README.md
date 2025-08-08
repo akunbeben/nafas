@@ -1,35 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nafas
+
+Nafas is a web-based application that serves as a digital replacement for a physical Acute Respiratory Infection (ARI) timer. ARI timers are used by healthcare providers to accurately measure a person's respiratory rate, which is a key indicator for diagnosing ARIs, especially in children.
+
+This application aims to provide an accessible and easy-to-use alternative to the physical device, available on any device with a web browser.
+
+## Features
+
+*   **Privacy-First by Design:** Your privacy is paramount. We do not collect or store any of your measurement data. All session information is encoded directly into the URL, giving you full control over your information. To share, simply use the URL.
+*   **Accurate Timing:** Provides a 60-second timer to count respirations, with an option for a 30-second count.
+*   **Tap Counter:** A simple tap interface to count each breath.
+*   **Multilingual Support:** Available in English and Indonesian.
+*   **Audio Cues:** Provides audio feedback for starting the timer and other interactions.
+*   **Shareable Results:** Generate a unique link to share the results of a respiratory count.
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+```
+
+Then, run the development server:
+
+```bash
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*   `bun run dev`: Starts the development server.
+*   `bun run build`: Builds the application for production.
+*   `bun run start`: Starts a production server.
+*   `bun run lint`: Lints the codebase.
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+*   [Next.js](https://nextjs.org/) - React framework
+*   [React](https://react.dev/) - JavaScript library for building user interfaces
+*   [TypeScript](https://www.typescriptlang.org/) - Typed superset of JavaScript
+*   [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+*   [Zustand](https://zustand-demo.pmnd.rs/) - Small, fast and scalable bearbones state-management for React
+*   [next-intl](https://next-intl-docs.vercel.app/) - Internationalization for Next.js
+*   [Lucide React](https://lucide.dev/) - Simply beautiful open-source icons
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
+## Deployment
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 

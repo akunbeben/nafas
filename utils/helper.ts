@@ -10,12 +10,19 @@ export function isValidTimezone(tz?: string): boolean {
 }
 
 export const encodeState = (state: CounterState): string => {
-  return btoa(JSON.stringify(state));
+  const base64 = btoa(JSON.stringify(state));
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 };
 
 export const decodeState = (encoded?: string): [error: boolean, data: CounterState | null] => {
   try {
-    return [false, JSON.parse(atob(encoded || ''))];
+    if (!encoded) return [true, null];
+
+    let base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    while (base64.length % 4) {
+      base64 += '=';
+    }
+    return [false, JSON.parse(atob(base64))];
   } catch {
     return [true, null];
   }

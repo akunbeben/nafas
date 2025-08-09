@@ -47,11 +47,16 @@ export const CounterView: React.FC = () => {
           clearInterval(interval!);
           router.push(`/result/${state}`);
         } else {
-          if (lastRemaining.current !== remaining) {
-            setTimeLeft(remaining);
-            tickAudio.play();
-            lastRemaining.current = remaining;
+          if (lastRemaining.current === remaining) {
+            return;
           }
+
+          if (lastRemaining.current > 0) {
+            tickAudio.play();
+          }
+
+          setTimeLeft(remaining);
+          lastRemaining.current = remaining;
         }
       }, 100);
     }

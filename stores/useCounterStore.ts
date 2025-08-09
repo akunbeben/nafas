@@ -63,7 +63,7 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
       c: '0',
       d: duration.toString(),
       t: Date.now().toString(),
-      lc: Cookies.get('locale') || '',
+      lc: Cookies.get('locale') || 'id',
       tz: Cookies.get('timezone') || Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
   },
@@ -87,7 +87,7 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
       c: count.toString(),
       d: duration.toString(),
       t: Date.now().toString(),
-      lc: Cookies.get('locale') || '',
+      lc: Cookies.get('locale') || 'id',
       tz: Cookies.get('timezone') || Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
   },

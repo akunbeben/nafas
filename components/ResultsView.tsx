@@ -138,6 +138,7 @@ export const ResultsView: React.FC<{ state: string }> = ({ state }) => {
           https://github.com/akunbeben/nafas
         </a>
       </div>
+      <div style={{ height: 'var(--banner-height, 0px)' }} />
     </div>
   );
 };

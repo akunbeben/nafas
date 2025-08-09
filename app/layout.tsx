@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import { OfflineBanner } from '~/components/OfflineBanner';
 import { ReactScan } from "~/components/ReactScan";
 import localFont from 'next/font/local'
 
@@ -24,6 +25,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <html lang={locale} className={inter.className}>
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
+          <OfflineBanner />
           <ReactScan />
           {children}
           <Analytics />

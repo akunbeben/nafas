@@ -15,7 +15,7 @@ export const CounterView: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(counter.duration);
   const [animate, setAnimate] = useState(false);
   const [clickable, setClickable] = useState(true);
-  const lastRemaining = useRef(-1);
+  const lastRemaining = useRef(0);
 
   useEffect(() => {
     setClickable(true);

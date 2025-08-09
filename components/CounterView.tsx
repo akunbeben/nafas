@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCounterStore } from '~/stores/useCounterStore';
 import { Timer } from 'lucide-react';
@@ -15,6 +15,7 @@ export const CounterView: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(counter.duration);
   const [animate, setAnimate] = useState(false);
   const [clickable, setClickable] = useState(true);
+  const lastRemaining = useRef(-1);
 
   useEffect(() => {
     setClickable(true);
@@ -31,11 +32,10 @@ export const CounterView: React.FC = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     const tickAudio = new Audio('/tick.mp3');
-    let lastRemaining = -1;
+    tickAudio.preload = 'auto';
 
     if (counter.isActive && counter.startTime) {
-        tickAudio.preload = 'auto';
-        interval = setInterval(() => {
+      interval = setInterval(() => {
         const elapsed = Math.floor((Date.now() - counter.startTime!) / 1000);
         const remaining = counter.duration - elapsed;
 
@@ -47,11 +47,11 @@ export const CounterView: React.FC = () => {
           clearInterval(interval!);
           router.push(`/result/${state}`);
         } else {
-            if(lastRemaining !== remaining){
-                setTimeLeft(remaining);
-                tickAudio.play();
-                lastRemaining = remaining;
-            }
+          if (lastRemaining.current !== remaining) {
+            setTimeLeft(remaining);
+            tickAudio.play();
+            lastRemaining.current = remaining;
+          }
         }
       }, 100);
     }
@@ -59,7 +59,7 @@ export const CounterView: React.FC = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [counter, router]);
+  }, [counter.isActive, counter.startTime, counter.duration, counter.complete, router]);
 
   function toggleLocale() {
     if (locale === 'en') {

@@ -31,9 +31,11 @@ export const CounterView: React.FC = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     const tickAudio = new Audio('/tick.mp3');
+    let lastRemaining = -1;
 
     if (counter.isActive && counter.startTime) {
-      interval = setInterval(() => {
+        tickAudio.preload = 'auto';
+        interval = setInterval(() => {
         const elapsed = Math.floor((Date.now() - counter.startTime!) / 1000);
         const remaining = counter.duration - elapsed;
 
@@ -45,12 +47,11 @@ export const CounterView: React.FC = () => {
           clearInterval(interval!);
           router.push(`/result/${state}`);
         } else {
-          setTimeLeft(currentLeft => {
-            if (remaining < currentLeft) {
-              tickAudio.play();
+            if(lastRemaining !== remaining){
+                setTimeLeft(remaining);
+                tickAudio.play();
+                lastRemaining = remaining;
             }
-            return remaining;
-          });
         }
       }, 100);
     }

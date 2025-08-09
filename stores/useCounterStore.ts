@@ -27,7 +27,7 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
   setDuration: (duration) => set({ duration }),
 
   startTimer: () => {
-    let startAudio = new Audio('/start.ogg');
+    let startAudio = new Audio('/beep.mp3');
     startAudio.play();
 
     set({
@@ -71,14 +71,15 @@ export const useCounterStore = create<CounterStore>((set, get) => ({
 
   complete: () => {
     const { count, duration } = get();
-    let beep = new Audio('/start.ogg');
+    let beep = new Audio('/beep.mp3');
 
     vibrate(500);
 
-    beep.play();
-    setTimeout(() => {
-      beep.play();
-    }, 500);
+    beep.play().then(() => {
+      setTimeout(() => {
+        beep.play();
+      }, 450);
+    });
 
     set({
       isActive: false,

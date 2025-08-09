@@ -30,7 +30,7 @@ export const CounterView: React.FC = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-    const tickAudio = new Audio('/tick.ogg');
+    const tickAudio = new Audio('/tick.mp3');
 
     if (counter.isActive && counter.startTime) {
       interval = setInterval(() => {

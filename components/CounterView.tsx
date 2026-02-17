@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCounterStore } from '~/stores/useCounterStore';
 import { Timer } from 'lucide-react';
+import { useOnlineStatus } from '~/hooks/useOnlineStatus';
+import { OfflineResultModal } from '~/components/OfflineResultModal';
 import { useTranslations, useLocale } from 'next-intl';
 import Cookies from 'js-cookie';
 
@@ -12,9 +14,12 @@ export const CounterView: React.FC = () => {
   const t = useTranslations('Main');
   const router = useRouter();
   const counter = useCounterStore();
+  const isOnline = useOnlineStatus();
   const [timeLeft, setTimeLeft] = useState<number>(counter.duration);
   const [animate, setAnimate] = useState(false);
   const [clickable, setClickable] = useState(true);
+  const [showOfflineModal, setShowOfflineModal] = useState(false);
+  const [offlineState, setOfflineState] = useState('');
   const lastRemaining = useRef(0);
 
   useEffect(() => {
@@ -40,12 +45,17 @@ export const CounterView: React.FC = () => {
         const remaining = counter.duration - elapsed;
 
         if (remaining <= 0) {
-          const state = counter.complete();
-
-          setClickable(false);
-          setTimeLeft(0);
-          clearInterval(interval!);
-          router.push(`/result/${state}`);
+          counter.complete().then(state => {
+            setClickable(false);
+            setTimeLeft(0);
+            clearInterval(interval!);
+            if (isOnline) {
+              router.push(`/result/${state}`);
+            } else {
+              setOfflineState(state);
+              setShowOfflineModal(true);
+            }
+          });
         } else {
           if (lastRemaining.current === remaining) {
             return;
@@ -64,7 +74,7 @@ export const CounterView: React.FC = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [counter.isActive, counter.startTime, counter.duration, counter.complete, router]);
+  }, [counter.isActive, counter.startTime, counter.duration, counter.complete, router, isOnline]);
 
   function toggleLocale() {
     if (locale === 'en') {
@@ -144,6 +154,17 @@ export const CounterView: React.FC = () => {
           </div>
         </button>
       </div>
+      <div style={{ height: 'var(--banner-height, 0px)' }} />
+      {showOfflineModal && (
+        <OfflineResultModal
+          state={offlineState}
+          onClose={() => {
+            setShowOfflineModal(false);
+            setOfflineState('');
+            counter.reset(60);
+          }}
+        />
+      )}
     </div>
   );
 };
